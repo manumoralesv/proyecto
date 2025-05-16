@@ -27,3 +27,12 @@ def load_movies():
     #Renombramos las columnas 
     df.columns = ['id', 'title', 'year', 'category', 'rating', 'overview']
     
+    #Llenamos los espacios vacíos con el texto 'vacío' y convertimos los datos en diccionarios
+    return df.fillna('').to_dict(orient='records')
+#cargamos las películas al iniciar la API para no leer el archivo cada que alguien pregunta por ellas.
+movies_list = load_movies()
+
+#funcion para encontrar sinónimos de una palabra
+def get_synonyms(word):
+    #Usamos WorldNet para obtener distintas palabras que significan lo mismo.
+    return{lemma.name().lower() for syn in wordnet.synsets(word) for lemma in syn.lemmas()}
